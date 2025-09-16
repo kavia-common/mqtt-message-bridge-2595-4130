@@ -1,0 +1,4 @@
+{
+    "command": "python manage.py test",
+    "working_directory": "/home/kavia/workspace/code-generation/mqtt-message-bridge-2595-4130/mqtt_backend"
+}
