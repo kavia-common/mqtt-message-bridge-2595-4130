@@ -136,3 +136,30 @@ CORS_ALLOW_ALL_ORIGINS = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
 X_FRAME_OPTIONS = 'ALLOWALL'
+
+# MQTT configuration
+# The following environment variables can be set to control MQTT behavior:
+# - MQTT_HOST: Broker hostname (default: localhost)
+# - MQTT_PORT: Broker port (default: 1883)
+# - MQTT_USERNAME: Username for broker auth (optional)
+# - MQTT_PASSWORD: Password for broker auth (optional)
+# - MQTT_CLIENT_ID: Custom MQTT client ID (optional; default auto-generated)
+# - MQTT_SUBSCRIBE_TOPIC: Topic to subscribe to (default: test/in)
+# - MQTT_PUBLISH_TOPIC: Topic to publish to (default: test/out)
+# - MQTT_QOS: QoS level for subscribe/publish (0,1,2) default: 0
+# - MQTT_KEEPALIVE: Keepalive seconds (default: 60)
+# - MQTT_TLS: "true" to enable TLS (default: false)
+import os
+
+MQTT_SETTINGS = {
+    "HOST": os.getenv("MQTT_HOST", "localhost"),
+    "PORT": int(os.getenv("MQTT_PORT", "1883")),
+    "USERNAME": os.getenv("MQTT_USERNAME", None),
+    "PASSWORD": os.getenv("MQTT_PASSWORD", None),
+    "CLIENT_ID": os.getenv("MQTT_CLIENT_ID", None),
+    "SUBSCRIBE_TOPIC": os.getenv("MQTT_SUBSCRIBE_TOPIC", "test/in"),
+    "PUBLISH_TOPIC": os.getenv("MQTT_PUBLISH_TOPIC", "test/out"),
+    "QOS": max(0, min(2, int(os.getenv("MQTT_QOS", "0")))),
+    "KEEPALIVE": int(os.getenv("MQTT_KEEPALIVE", "60")),
+    "TLS": os.getenv("MQTT_TLS", "false").lower() in ("1", "true", "yes"),
+}
